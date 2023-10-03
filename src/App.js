@@ -1,23 +1,24 @@
-import logo from './logo.svg';
+import {GridItem} from "./components/GridItem";
 import './App.css';
+import CommitMessagesItem from "./components/CommitMessagesItem";
+import WorkFlowJobItem from "./components/WorkFlowJobItem";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+            <GridItem>
+                <CommitMessagesItem event="commit_comment"/>
+            </GridItem>
+            <GridItem>
+                <WorkFlowJobItem event='workflow_job' />
+            </GridItem>
+            <GridItem>Component 3</GridItem>
+            <GridItem>Component 4</GridItem>
+            <GridItem>Component 5</GridItem>
+            <GridItem>Component 6</GridItem>
+            <GridItem>Component 7</GridItem>
+            <GridItem>Component 8</GridItem>
+            <GridItem>Component 9</GridItem>
     </div>
   );
 }
