@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import socketIOClient from "socket.io-client";
 
-const ENDPOINT = "http://127.0.0.1:4000";
+const ENDPOINT=process.env.REACT_APP_ENDPOINT;
 
 const CommitMessagesItem = ({ event }) => {
     const [messages, setMessages] = useState([]);
-    const [highlight, setHighlight] = useState(false);
+    const [totalCount, setTotalCount] = useState(0);
+    const [highlightIndex, setHighlightIndex] = useState(-1);
 
     useEffect(() => {
         const socket = socketIOClient(ENDPOINT);
         socket.on('githubEvent', (incomingEvent) => {
-            if(incomingEvent.head_commit) {
+            if (incomingEvent.head_commit && incomingEvent.commits && incomingEvent.commits.length > 0) {
                 setMessages(prevMessages => [incomingEvent, ...prevMessages]);
-                setHighlight(true);
-                setTimeout(() => setHighlight(false), 1000);
+                setTotalCount(totalCount + 1)
+                setHighlightIndex(0);
+                setTimeout(() => setHighlightIndex(-1), 1000);
             }
         });
 
@@ -23,16 +25,18 @@ const CommitMessagesItem = ({ event }) => {
     }, []);
 
     return (
-        <div>
-            <div class={'title_wrapper'}>
-                <h2 className='dashboard_item_title'>
-                    Commits
-                </h2>
-            </div>
             <div className='grid-item-container'>
-                <div className={`commitMessagesList ${highlight ? 'highlight' : ''}`}>
+                <div className='title_wrapper'>
+                    <span class={'counter_container'}>
+                        {totalCount}
+                    </span>
+                    <h2 className='dashboard_item_title'>
+                        Commits
+                    </h2>
+                </div>
+                <div className='commitMessagesList'>
                     {messages.map((message, index) => (
-                        <div key={index} className='commitMessagesItem'>
+                        <div key={message.id || index} className={`commitMessagesItem ${index === highlightIndex ? 'highlight' : ''}`}>
                             <div className='commit_mess'>
                                 <img src={message?.sender?.avatar_url} alt="Avatar"/>
                             </div>
@@ -48,7 +52,6 @@ const CommitMessagesItem = ({ event }) => {
                     ))}
                 </div>
             </div>
-        </div>
     );
 };
 

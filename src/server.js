@@ -22,5 +22,20 @@ app.post('/github-webhook', (req, res) => {
     res.status(200).send('Event received');
 });
 
+app.post('/rollbar-webhook', (req, res) => {
+    const event = req.body;
+
+    io.emit('rollbarEvent', event);
+    res.status(200).send('Event received');
+});
+
+app.post('/jira-webhook', (req, res) => {
+    const event = req.body;
+
+    io.emit('rollbarEvent', event);
+    res.status(200).send('Event received');
+});
+
+
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));

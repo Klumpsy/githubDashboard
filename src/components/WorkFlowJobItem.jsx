@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import socketIOClient from "socket.io-client";
 
-const ENDPOINT = "http://127.0.0.1:4000";
+const ENDPOINT=process.env.REACT_APP_ENDPOINT;
 
 const WorkFlowJobItem = ({ event }) => {
     const [messages, setMessages] = useState([]);
@@ -23,11 +23,10 @@ const WorkFlowJobItem = ({ event }) => {
     }, []);
 
     return (
-       <div>
-           <h2 className='dashboard_item_title'>
-               Jobs
-           </h2>
            <div className='grid-item-container'>
+               <h2 className='dashboard_item_title'>
+                   Jobs
+               </h2>
                <div className={`commitMessagesList ${highlight ? 'highlight' : ''}`}>
                    {messages.map((message, index) => (
                        <div key={index} className='commitMessagesItem'>
@@ -43,7 +42,6 @@ const WorkFlowJobItem = ({ event }) => {
                    ))}
                </div>
            </div>
-       </div>
     );
 };
 
