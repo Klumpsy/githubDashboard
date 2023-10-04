@@ -1,44 +1,47 @@
 import {GridItem} from "./components/GridItem";
 import './App.css';
-import CommitMessagesItem from "./components/CommitMessagesItem";
-import WorkFlowJobItem from "./components/WorkFlowJobItem";
-import {BranchMergedEvent} from "./components/BranchMergedEvent";
-import IssuePullRequestComments from "./components/IssuePullRequestComments";
-import EveryRollBarOccurence from "./components/EveryRollBarOccurrence";
-import EveryRollbarHighOccurrence from "./components/EveryRollbarHighOccurrence";
-import EveryRollBarNewOccurrence from "./components/EveryRollBarNewOccurrence";
+import CommitMessagesItem from "./components/github/CommitMessagesItem";
+import WorkFlowJobItem from "./components/github/WorkFlowJobItem";
+import {BranchMergedEvent} from "./components/github/BranchMergedEvent";
+import IssuePullRequestComments from "./components/github/IssuePullRequestComments";
+import EveryRollBarOccurence from "./components/rollbar/EveryRollBarOccurrence";
+import EveryRollbarHighOccurrence from "./components/rollbar/EveryRollbarHighOccurrence";
+import EveryRollBarNewOccurrence from "./components/rollbar/EveryRollBarNewOccurrence";
+import CreatedIssuesJira from "./components/jira/CreatedIssuesJira";
+import CompletedIssuesJira from "./components/jira/CompletedIssuesJira";
+import JuniorEinsteinLogo from "./components/JuniorEinsteinLogo";
 
 function App() {
   return (
     <div className="App">
             <GridItem>
-                <CommitMessagesItem event="commit_comment"/>
+                <CommitMessagesItem event='githubEvent'/>
             </GridItem>
             <GridItem>
-                <WorkFlowJobItem event='workflow_job' />
+                <WorkFlowJobItem event='githubEvent' />
             </GridItem>
             <GridItem>
-                <IssuePullRequestComments event='issue_pullrequest_comments'/>
+                <IssuePullRequestComments event='githubEvent'/>
             </GridItem>
             <GridItem>
-                <EveryRollBarNewOccurrence event='every_new_occurrence'/>
+                <EveryRollBarNewOccurrence event='rollbarEvent'/>
             </GridItem>
             <GridItem>
-                <EveryRollBarOccurence event='every_occurrence'/>
+                <EveryRollBarOccurence event='rollbarEvent'/>
             </GridItem>
             <GridItem>
-                <EveryRollbarHighOccurrence event='every_tenth_occurrence'/>
+                <EveryRollbarHighOccurrence event='rollbarEvent'/>
             </GridItem>
             <GridItem>
-                Component 7
+                <CreatedIssuesJira event='jiraEvent'/>
             </GridItem>
             <GridItem>
-                Component 8
+                <CompletedIssuesJira event='jiraEvent'/>
             </GridItem>
             <GridItem>
-                Component 9
+                <JuniorEinsteinLogo event='githubEvent'/>
             </GridItem>
-        <BranchMergedEvent/>
+        <BranchMergedEvent event='githubEvent'/>
     </div>
   );
 }

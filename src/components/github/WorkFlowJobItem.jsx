@@ -5,15 +5,17 @@ const ENDPOINT=process.env.REACT_APP_ENDPOINT;
 
 const WorkFlowJobItem = ({ event }) => {
     const [messages, setMessages] = useState([]);
-    const [highlight, setHighlight] = useState(false);
+    const [highlightIndex, setHighlightIndex] = useState(-1);
+    const [totalCount, setTotalCount] = useState(0);
 
     useEffect(() => {
         const socket = socketIOClient(ENDPOINT);
-        socket.on('githubEvent', (incomingEvent) => {
+        socket.on(event, (incomingEvent) => {
                 if(incomingEvent.workflow_job && incomingEvent.action === 'completed') {
                     setMessages(prevMessages => [incomingEvent, ...prevMessages]);
-                    setHighlight(true);
-                    setTimeout(() => setHighlight(false), 1000);
+                    setTotalCount(totalCount => totalCount + 1);
+                    setHighlightIndex(0);
+                    setTimeout(() => setHighlightIndex(-1), 1000);
                 }
         });
 
@@ -24,12 +26,17 @@ const WorkFlowJobItem = ({ event }) => {
 
     return (
            <div className='grid-item-container'>
-               <h2 className='dashboard_item_title'>
-                   Jobs
-               </h2>
-               <div className={`commitMessagesList ${highlight ? 'highlight' : ''}`}>
+              <div className='title_wrappr'>
+                  <h2 className='dashboard_item_title'>
+                      Jobs
+                  </h2>
+                  <span className={'counter_container'}>
+                       {totalCount}
+                  </span>
+              </div>
+               <div className='commitMessagesList'>
                    {messages.map((message, index) => (
-                       <div key={index} className='commitMessagesItem'>
+                       <div key={message.id || index} className={`commitMessagesItem ${index === highlightIndex ? 'highlight' : ''}`}>
                            <div className='commit_mess'>
                                <img src={message?.sender?.avatar_url} alt="Avatar"/>
                            </div>

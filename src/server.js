@@ -32,7 +32,7 @@ app.post('/rollbar-webhook', (req, res) => {
 app.post('/jira-webhook', (req, res) => {
     const event = req.body;
 
-    io.emit('rollbarEvent', event);
+    io.emit('jiraEvent', event);
     res.status(200).send('Event received');
 });
 

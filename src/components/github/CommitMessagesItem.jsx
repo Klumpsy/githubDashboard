@@ -10,10 +10,10 @@ const CommitMessagesItem = ({ event }) => {
 
     useEffect(() => {
         const socket = socketIOClient(ENDPOINT);
-        socket.on('githubEvent', (incomingEvent) => {
+        socket.on(event, (incomingEvent) => {
             if (incomingEvent.head_commit && incomingEvent.commits && incomingEvent.commits.length > 0) {
                 setMessages(prevMessages => [incomingEvent, ...prevMessages]);
-                setTotalCount(totalCount + 1)
+                setTotalCount(totalCount => totalCount + 1);
                 setHighlightIndex(0);
                 setTimeout(() => setHighlightIndex(-1), 1000);
             }
@@ -27,7 +27,7 @@ const CommitMessagesItem = ({ event }) => {
     return (
             <div className='grid-item-container'>
                 <div className='title_wrapper'>
-                    <span class={'counter_container'}>
+                    <span className={'counter_container'}>
                         {totalCount}
                     </span>
                     <h2 className='dashboard_item_title'>

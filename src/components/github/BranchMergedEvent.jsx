@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import useWindowSize from '../hooks/useWindowSize';
+import useWindowSize from '../../hooks/useWindowSize';
 import Confetti from 'react-confetti';
 import socketIOClient from "socket.io-client";
 
 const ENDPOINT=process.env.REACT_APP_ENDPOINT;
 
-export const BranchMergedEvent = () => {
+export const BranchMergedEvent = ({event}) => {
     const { width, height } = useWindowSize();
     const [showConfetti, setShowConfetti] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -13,7 +13,7 @@ export const BranchMergedEvent = () => {
 
     useEffect(() => {
         const socket = socketIOClient(ENDPOINT);
-        socket.on('githubEvent', (incomingEvent) => {
+        socket.on(event, (incomingEvent) => {
             if(incomingEvent.action === 'closed' && incomingEvent.pull_request.merged === true) {
                 setMessage(incomingEvent);
                 setShowConfetti(true);

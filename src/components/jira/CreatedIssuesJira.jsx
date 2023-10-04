@@ -3,15 +3,17 @@ import socketIOClient from "socket.io-client";
 
 const ENDPOINT=process.env.REACT_APP_ENDPOINT;
 
-const EveryRollbarHighOccurrence = ({ event }) => {
+const CreatedIssuesJira = ({ event }) => {
     const [messages, setMessages] = useState([]);
+    const [totalCount, setTotalCount] = useState(0);
     const [highlightIndex, setHighlightIndex] = useState(-1);
 
     useEffect(() => {
         const socket = socketIOClient(ENDPOINT);
-        socket.on('rollbarEvent', (incomingEvent) => {
-            if (incomingEvent.event_name === 'item_velocity') {
+        socket.on(event, (incomingEvent) => {
+            if (incomingEvent.webhookEvent === 'jira:issue_created') {
                 setMessages(prevMessages => [incomingEvent, ...prevMessages]);
+                setTotalCount(totalCount => totalCount + 1);
                 setHighlightIndex(0);
                 setTimeout(() => setHighlightIndex(-1), 1000);
             }
@@ -25,19 +27,25 @@ const EveryRollbarHighOccurrence = ({ event }) => {
     return (
         <div className='grid-item-container'>
             <div className='title_wrapper'>
+                    <span className={'counter_container'}>
+                        {totalCount}
+                    </span>
                 <h2 className='dashboard_item_title'>
-                    FIX IT!
+                    New Issues
                 </h2>
             </div>
-            <div className={`commitMessagesList`}>
+            <div className='commitMessagesList'>
                 {messages.map((message, index) => (
-                    <div key={message.id || index} className={`commitMessagesItem ${index === highlightIndex ? 'highlight' : ''}`}>
+                    <div key={message.id || index} className={`commitMessagesItemJira ${index === highlightIndex ? 'highlight' : ''}`}>
+                        <div className='commit_mess'>
+                            <span className={'prefix_indicator_jira'}>{message?.user?.displayName}</span>
+                        </div>
                         <div className={'commit_text'}>
                             <div>
-                                <span className={'prefix_indicator_rollbar'}>ERROR: </span> {message?.data?.item?.title}
+                                <span className={'prefix_indicator'}>{message?.issue?.key}:</span>
                             </div>
-                            <div>
-                                <span className={'prefix_indicator_rollbar'}>Occ: </span> {message?.data?.item?.total_occurrences}
+                            <div class='jira_text_small'>
+                                {message?.issue?.fields?.summary}
                             </div>
                         </div>
                     </div>
@@ -47,4 +55,4 @@ const EveryRollbarHighOccurrence = ({ event }) => {
     );
 };
 
-export default EveryRollbarHighOccurrence;
+export default CreatedIssuesJira;

@@ -66,6 +66,34 @@ html, body {
   justify-content: center;
 }
 
+.commitMessagesItemJira {
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.commitMessagesItemJiraDone {
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.commitMessagesItemJiraDone .commit_mess {
+  text-align: left;
+  min-width: 150px;
+}
+
+.commitMessagesItemJiraDone .prefix_indicator_jira {
+  color: lightgreen;
+}
+
+.commitMessagesItemJira .commit_mess {
+  text-align: left;
+  min-width: 150px;
+}
+
 .commitMessagesItem_modal {
   color: white;
   padding: 20px;
@@ -101,8 +129,19 @@ html, body {
   width: 100%;
 }
 
+.prefix_indicator_jira {
+  font-weight: 800;
+  color: lightblue;
+  padding-right: 10px;
+  text-align: left;
+}
+
 .commit_text div {
   text-align: left;
+}
+
+.jira_text_small {
+  font-size: 14px;
 }
 
 .prefix_indicator {
@@ -116,7 +155,8 @@ html, body {
 }
 
 .success {
-  color: darkseagreen;
+  color: lightgreen;
+  font-weight: 700;
 }
 
 .failure {
@@ -177,6 +217,11 @@ html, body {
   color: lightblue;
   font-size: 12px;
   padding: 3px;
+  display: block;
+}
+
+.grid-item-container_9 img{
+  max-width: 300px;
 }
 
 .highlight {
