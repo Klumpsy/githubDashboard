@@ -5,7 +5,7 @@ const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const EventLogoMap = {
     "failure": "/500-image.svg",
-    "success": "/happy-1.gif",
+    "success": "/happy.gif",
 };
 
 const DEFAULT_LOGO = "/logo_no_text.svg";
